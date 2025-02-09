@@ -1,0 +1,115 @@
+<!-- templates/academics_form.html -->
+{% if message %}
+<div class="message success">{{ message }}</div>
+{% endif %}
+
+<form hx-post="{% url 'academics' %}" 
+      hx-target="#form-container"
+      hx-swap="innerHTML">
+    {% csrf_token %}
+    
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Course</label>
+            <select name="course" required>
+                {% for value, label in courses %}
+                    <option value="{{ value }}" {% if academic_data.course == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Department</label>
+            <input type="text" 
+                   name="department" 
+                   value="{{ academic_data.department|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Current Year</label>
+            <select name="current_year" required>
+                {% for value, label in years %}
+                    <option value="{{ value }}" {% if academic_data.current_year == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Current Semester</label>
+            <select name="current_semester" required>
+                {% for value, label in semesters %}
+                    <option value="{{ value }}" {% if academic_data.current_semester == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Year of Joining</label>
+            <input type="date" 
+                   name="year_joining" 
+                   value="{{ academic_data.year_joining|date:'Y-m-d'|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Type of Admission</label>
+            <input type="text" 
+                   name="type_of_admission" 
+                   value="{{ academic_data.type_of_admission|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Admission Type</label>
+            <input type="text" 
+                   name="admission_type" 
+                   value="{{ academic_data.admission_type|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>EMIS Number</label>
+            <input type="number" 
+                   name="emis_number" 
+                   value="{{ academic_data.emis_number|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>UMIS Number</label>
+            <input type="number" 
+                   name="umis_number" 
+                   value="{{ academic_data.umis_number|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Class Incharge</label>
+            <input type="text" 
+                   name="class_incharge" 
+                   value="{{ academic_data.class_incharge|default:'' }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Class Room Number</label>
+            <input type="number" 
+                   name="class_room_number" 
+                   value="{{ academic_data.class_room_number|default:'' }}"
+                   required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit">
+            {% if academic_data %}Update{% else %}Save{% endif %} Academic Information
+        </button>
+    </div>
+</form>
